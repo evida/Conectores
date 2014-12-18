@@ -58,7 +58,7 @@ public class BluetoothHDPActivity extends Activity {
 	// 0x1007 - blood pressure meter
 	// 0x1008 - body thermometer
 	// 0x100F - body weight scale
-	private static final int HEALTH_PROFILE_SOURCE_DATA_TYPE = 0x1007;
+	private static final int HEALTH_PROFILE_SOURCE_DATA_TYPE = 0x100F;
 
 	private static final int REQUEST_ENABLE_BT = 1;
 
@@ -75,9 +75,8 @@ public class BluetoothHDPActivity extends Activity {
 	private boolean mHealthServiceBound;
 
 	// myturnnow
-	private TextView mSys;
-	private TextView mDia;
-	private TextView mPul;
+	private TextView mWeight;
+
 	
 	// version number
 	private TextView mVersion;
@@ -128,17 +127,7 @@ public class BluetoothHDPActivity extends Activity {
 			case BluetoothHDPService.RECEIVED_SYS:
 				int sys = msg.arg1;
 				Log.i(TAG, "msg.arg1 @ sys is " + sys);
-				mSys.setText("" + sys);
-				break;
-			case BluetoothHDPService.RECEIVED_DIA:
-				int dia = msg.arg1;
-				mDia.setText("" + dia);
-				Log.i(TAG, "msg.arg1 @ dia is " + dia);
-				break;
-			case BluetoothHDPService.RECEIVED_PUL:
-				int pul = msg.arg1;
-				Log.i(TAG, "msg.arg1 @ pulse is " + pul);
-				mPul.setText("" + pul);
+				mWeight.setText("" + sys/100 +"."+sys%100);
 				break;
 			default:
 				super.handleMessage(msg);
@@ -168,11 +157,8 @@ public class BluetoothHDPActivity extends Activity {
 		mHealthServiceBound = false;
 		
 
-		mSys = (TextView) findViewById(R.id.Systolic);
-		mDia = (TextView) findViewById(R.id.Diastolic);
-		mPul = (TextView) findViewById(R.id.Pulse);
+		mWeight = (TextView) findViewById(R.id.Weight);
 		mVersion = (TextView) findViewById(R.id.Version);
-		// mSys.setText("blah");
 		try {
 			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 			mVersion.setText("V " + versionName);
