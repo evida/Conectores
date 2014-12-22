@@ -86,7 +86,7 @@ public class BluetoothHDPActivity extends Activity {
 	private Messenger mHealthService;
 	private boolean mHealthServiceBound;
 
-    private double weight = 61.6;
+    private double weight;
 
 	// myturnnow
 	private TextView mWeight;
@@ -119,6 +119,13 @@ public class BluetoothHDPActivity extends Activity {
 			case BluetoothHDPService.STATUS_READ_DATA_DONE:
 				mStatusMessage.setText(mRes.getString(R.string.read_data_done));
 				mDataIndicator.setImageLevel(0);
+
+                if (mWeight !=null) {
+                    mWeight.setText(weight + " kg");
+                }
+
+                sendData();
+
 				break;
 			// Channel creation complete. Some devices will automatically
 			// establish
@@ -189,8 +196,7 @@ public class BluetoothHDPActivity extends Activity {
 		Button registerAppButton = (Button) findViewById(R.id.button_register_app);
 		registerAppButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-                sendMessage(BluetoothHDPService.MSG_REG_HEALTH_APP,
-                    HEALTH_PROFILE_SOURCE_DATA_TYPE);
+            sendMessage(BluetoothHDPService.MSG_REG_HEALTH_APP, HEALTH_PROFILE_SOURCE_DATA_TYPE);
 			}
 		});
 
@@ -199,8 +205,7 @@ public class BluetoothHDPActivity extends Activity {
 		Button unregisterAppButton = (Button) findViewById(R.id.button_unregister_app);
 		unregisterAppButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				sendData();
-				//sendMessage(BluetoothHDPService.MSG_UNREG_HEALTH_APP, 0);
+			sendMessage(BluetoothHDPService.MSG_UNREG_HEALTH_APP, 0);
 			}
 		});
 
