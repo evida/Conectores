@@ -25,6 +25,6 @@ public class Constants {
     }
 
     public static String getAccessToken() {
-        return "8b5d496ac3";
+        return "<insert_access_token_here>";
     }
 }
